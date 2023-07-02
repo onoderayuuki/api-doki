@@ -9,6 +9,8 @@ http://127.0.0.1:8080/?doki=20230514-J01-02
 
 https://us-west1-doki-391416.cloudfunctions.net/list_danmens/?doki=20230514-J01-02
 
+http://127.0.0.1:8080/htmls?doki=20230506-J02-01&param1=00_pcd_file.html&param2=60_mesh.html
+
 ## ローカル用の認証情報の設定
 export GOOGLE_APPLICATION_CREDENTIALS="key/doki-391416-ede3b39bd2ac.json"
 
