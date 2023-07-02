@@ -10,6 +10,9 @@ functions-framework --target hello_http --debug
 export GOOGLE_APPLICATION_CREDENTIALS="key/doki-391416-ede3b39bd2ac.json"
 
 
-## pythonで
+## pythonでtest
 chmod +x test.py
 ./test.py
+
+
+pip freeze > requirement.txt
