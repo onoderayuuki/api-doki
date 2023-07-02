@@ -1,0 +1,19 @@
+{
+  "name": "api-doki",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.py",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onoderayuuki/api-doki.git"
+  },
+  "author": "sayoko.oode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onoderayuuki/api-doki/issues"
+  },
+  "homepage": "https://github.com/onoderayuuki/api-doki#readme"
+}
