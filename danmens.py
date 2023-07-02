@@ -2,6 +2,8 @@ import functions_framework
 import os
 import json
 from google.cloud import storage
+from flask import Flask, Response
+
 storage_client = storage.Client()
 
 
@@ -18,7 +20,7 @@ def list_danmens(request):
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
     bucket_name = 'dokis'
-    prefix = 'docs/' + request.args.get('doki')
+    prefix = 'docs/' + request.args.get('doki', default='')
     blobs = storage_client.list_blobs(bucket_name, prefix=prefix)
     
     # PNGファイルの公開URLを取得
@@ -34,10 +36,8 @@ def list_danmens(request):
         "urls": public_urls
     }
 
-    json_data = json.dumps(data)
-
-    response = json_data
-    # response.headers.add('Access-Control-Allow-Origin', '*')  # すべてのオリジンからのアクセスを許可する場合
-
+    response = Response(json.dumps(data), mimetype='application/json')
+    response.headers['Access-Control-Allow-Origin'] = 'https://onoderayuuki.github.io'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    
     return response
-

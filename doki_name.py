@@ -2,6 +2,7 @@ import functions_framework
 import os
 import json
 from google.cloud import storage
+from flask import Flask, Response
 storage_client = storage.Client()
 
 
@@ -31,10 +32,9 @@ def list_dokis(request):
         "names": unique_prefixes
     }
 
-    json_data = json.dumps(data)
+    response = Response(json.dumps(data), mimetype='application/json')
 
-    response = json_data
-    response.headers.add('Access-Control-Allow-Origin', '*')  # すべてのオリジンからのアクセスを許可する場合
+    response.headers['Access-Control-Allow-Origin'] = 'https://onoderayuuki.github.io'  # 自分のWEBページのURLに置き換える
 
     return response
 
