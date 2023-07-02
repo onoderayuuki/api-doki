@@ -33,5 +33,8 @@ def doki_name(request):
 
     json_data = json.dumps(data)
 
-    return json_data
+    response = json_data
+    response.headers.add('Access-Control-Allow-Origin', '*')  # すべてのオリジンからのアクセスを許可する場合
+
+    return response
 
