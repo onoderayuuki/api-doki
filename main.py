@@ -7,7 +7,7 @@ storage_client = storage.Client()
 
 
 @functions_framework.http
-def list_dokis(request):
+def list_danmens(request):
     """HTTP Cloud Function.
     Args:
         request (flask.Request): The request object.
@@ -17,24 +17,27 @@ def list_dokis(request):
         Response object using `make_response`
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
-
-    blobs = storage_client.list_blobs('dokis')
-
-    prefixes = []
+    bucket_name = 'dokis'
+    prefix = 'docs/' + request.args.get('doki')
+    blobs = storage_client.list_blobs(bucket_name, prefix=prefix)
+    
+    # PNGファイルの公開URLを取得
+    public_urls = []
     for blob in blobs:
-        prefix = blob.name.split('/')[1]  # '/'で分割し、2番目の要素を取得
-        prefixes.append(prefix)
+        if blob.name.lower().endswith('.svg'):
+            public_url = f"https://storage.googleapis.com/{bucket_name}/{blob.name}"
+            public_urls.append(public_url)
 
-    unique_prefixes = sorted(list(set(prefixes)))
+    # return public_urls
 
     data = {
-        "names": unique_prefixes
+        "urls": public_urls
     }
 
     json_data = json.dumps(data)
 
     response = json_data
-    response.headers.add('Access-Control-Allow-Origin', '*')  # すべてのオリジンからのアクセスを許可する場合
+    # response.headers.add('Access-Control-Allow-Origin', '*')  # すべてのオリジンからのアクセスを許可する場合
 
     return response
 
