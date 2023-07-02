@@ -14,7 +14,8 @@ def hello_http(request):
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
     # bucket = explicit()
-    bucket = list(client.list_buckets())
+    # bucket = list(client.list_buckets())
+    bucket_names = [bucket.name for bucket in client.list_buckets()]
     request_json = request.get_json(silent=True)
     request_args = request.args
 
@@ -24,4 +25,5 @@ def hello_http(request):
         name = request_args['name']
     else:
         name = 'World'
-    return 'Hello {}!'.format(bucket)
+    
+    return 'Hello {}! Available buckets: {}'.format(name, ', '.join(bucket_names))
