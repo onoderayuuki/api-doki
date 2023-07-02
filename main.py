@@ -1,6 +1,6 @@
 import functions_framework
-# from google.cloud import storage
-# client = storage.Client()
+from google.cloud import storage
+client = storage.Client()
 
 @functions_framework.http
 def hello_http(request):
@@ -13,6 +13,8 @@ def hello_http(request):
         Response object using `make_response`
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
+    # bucket = explicit()
+    bucket = list(client.list_buckets())
     request_json = request.get_json(silent=True)
     request_args = request.args
 
@@ -22,4 +24,4 @@ def hello_http(request):
         name = request_args['name']
     else:
         name = 'World'
-    return 'Hello {}!'.format(name)
+    return 'Hello {}!'.format(bucket)
