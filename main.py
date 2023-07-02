@@ -1,6 +1,10 @@
 import functions_framework
+import os
+import json
 from google.cloud import storage
-client = storage.Client()
+storage_client = storage.Client()
+
+
 
 @functions_framework.http
 def hello_http(request):
@@ -13,17 +17,21 @@ def hello_http(request):
         Response object using `make_response`
         <https://flask.palletsprojects.com/en/1.1.x/api/#flask.make_response>.
     """
-    # bucket = explicit()
-    # bucket = list(client.list_buckets())
-    bucket_names = [bucket.name for bucket in client.list_buckets()]
-    request_json = request.get_json(silent=True)
-    request_args = request.args
 
-    if request_json and 'name' in request_json:
-        name = request_json['name']
-    elif request_args and 'name' in request_args:
-        name = request_args['name']
-    else:
-        name = 'World'
-    
-    return 'Hello {}! Available buckets: {}'.format(name, ', '.join(bucket_names))
+    blobs = storage_client.list_blobs('dokis')
+
+    prefixes = []
+    for blob in blobs:
+        prefix = blob.name.split('/')[1]  # '/'で分割し、2番目の要素を取得
+        prefixes.append(prefix)
+
+    unique_prefixes = sorted(list(set(prefixes)))
+
+    data = {
+        "names": unique_prefixes
+    }
+
+    json_data = json.dumps(data)
+
+    return json_data
+
