@@ -7,7 +7,7 @@ storage_client = storage.Client()
 
 
 @functions_framework.http
-def hello_http(request):
+def doki_name(request):
     """HTTP Cloud Function.
     Args:
         request (flask.Request): The request object.
